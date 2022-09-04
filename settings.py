@@ -7,7 +7,7 @@ class Settings():
         self.line_y = 50
 
         self.caption = "Snake by W30Rotkiw06"
-        self.screen_size_width = 540
+        self.screen_size_width = 544
         self.screen_size_height =  self.screen_size_width + self.line_y
         self.screen_size = (self.screen_size_width, self.screen_size_height)
         self.bg_color = (146, 227, 239)
