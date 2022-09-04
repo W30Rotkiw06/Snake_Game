@@ -19,9 +19,9 @@ class Snake():
 
         self.my_long_snake = MySnake(self)
         self.apple = Apple(self)
-        self.points = Points(self)
-
         self.game_active = True
+
+        self.points = Points(self)
 
     def run_game(self):
         """rozpoczęcie pętli głównej gry"""
@@ -31,6 +31,8 @@ class Snake():
             if self.game_active:
                 self.my_long_snake.update()         
                 self.collisions()
+                self.is_dead()
+                self.update_screen()
                 
             self.update_screen()
 
@@ -70,16 +72,28 @@ class Snake():
                 elif event.key == pygame.K_q: sys.exit()
 
 
-                    
+    def is_dead(self):
+        """sprawdzanie czy wąż powinien być martwy, tzn czy nie wiechał w ścianę"""
+        if self.my_long_snake.x <= 8 or self.my_long_snake.x >= self.settings.screen_size_width - 8: self.kill_yourself()
+        elif self.my_long_snake.y <= self.settings.line_y + 8 or self.my_long_snake.y >= self.settings.screen_size_height - 6: self.kill_yourself()
 
+    def kill_yourself(self):
+        self.points.points = 0
+        
+        self.points.print_score = False
+
+        del self.my_long_snake
+        del self.apple
+        self.game_active = False
     
     def update_screen(self):
         """uaktualnianie obrazów na ekranie i przejście do nowego ekranu"""
         self.screen.fill(self.settings.bg_color)
-        self.apple.blitme()
+        try:
+            self.apple.blitme()
+            self.my_long_snake.blitme()
+        except: pass
         self.points.show_score()
-        self.my_long_snake.blitme()
-        
 
         pygame.display.flip() # wyświetlenie ostatnio zmodyfikowanego ekranu
     
