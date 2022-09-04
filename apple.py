@@ -19,7 +19,7 @@ class Apple():
     def new_apple(self):
         """Metoda przeznaczona do generowania nowego jabłka na ekranie"""
         self.rect.x = randint(40, self.settings.screen_size_width - 40)
-        self.rect.y = randint(40, self.settings.screen_size_height - 40)
+        self.rect.y = randint(40 + self.settings.line_y, self.settings.screen_size_height - 40)
         self.settings.snake_speed /= 1.1
         self.settings.apple_color = choice(self.color_libary)
 

@@ -77,6 +77,7 @@ class Snake():
         """uaktualnianie obrazów na ekranie i przejście do nowego ekranu"""
         self.screen.fill(self.settings.bg_color)
         self.apple.blitme()
+        self.points.show_score()
         self.my_long_snake.blitme()
         
 
