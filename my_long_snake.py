@@ -56,14 +56,13 @@ class MySnake(MyLittleSnake):
         
         self.head_coord = (self.x, self.y)
         self.coords.insert(0, self.head_coord)
-        
+
 
         self.my_little_snake = MyLittleSnake(self.snake_game, self.x, self.y)
         self.my_long_snake.insert(0, self.my_little_snake)
 
         if self.apple == True:
-            print(len(self.coords), self.head_coord)
-            print(self.coords)
+            pass
         else:
             del self.my_long_snake[-1]
             if self.coords: del self.coords[-1]

@@ -18,3 +18,6 @@ class Settings():
         self.snake_speed = 0.4
         self.snake_color = (0, 0, 0)
         self.apple_color = (0, 0, 0)
+
+    def set_deafult(self):
+        self.snake_speed = 0.6
