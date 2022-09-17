@@ -14,11 +14,7 @@ class Settings():
         self.bg_color = (146, 227, 239)
         
 
-        self.set_deafult_settings()
-
-    def set_deafult_settings(self):
         # ustawienia węża
         self.snake_speed = 0.4
         self.snake_color = (0, 0, 0)
         self.apple_color = (0, 0, 0)
-        

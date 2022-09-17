@@ -20,7 +20,7 @@ class Snake():
 
         self.my_long_snake = MySnake(self)
         self.apple = Apple(self)
-        self.game_active = True
+        self.game_active = False
 
         self.points = Points(self)
 
@@ -80,10 +80,10 @@ class Snake():
     def check_play_button(self, mouse_pos):
         if self.button.rect.collidepoint(mouse_pos):
             self.game_active = True
-            self.settings.set_deafult_settings()
-            self.points.points = 0
-            self.my_long_snake.set_deafult()
-           
+            self.settings = Settings(self)
+            self.my_long_snake = MySnake(self)
+            self.points = Points(self)
+            self.button = StartMenu(self)
             
         
 
@@ -93,16 +93,18 @@ class Snake():
             if self.my_long_snake.x <= 8 or self.my_long_snake.x >= self.settings.screen_size_width - 8: self.kill_yourself()
             elif self.my_long_snake.y <= self.settings.line_y + 8 or self.my_long_snake.y >= self.settings.screen_size_height - 6: self.kill_yourself()
             else:
-                for object in self.my_long_snake.coords[1:]:
-                    if self.my_long_snake.head_coord[0] - 4 >= object[0] - 4 and self.my_long_snake.head_coord[0] + 4 >= object[0] + 4:
-                        if self.my_long_snake.head_coord[1] - 4 >= object[1] - 4 and self.my_long_snake.head_coord[1] + 4 >= object[1] + 4: self.kill_yourself()
+                for object in self.my_long_snake.coords[3:]:
+                    i = 3
+                    if self.my_long_snake.head_coord[0] - 2 >= object[0] - 2 and self.my_long_snake.head_coord[0] + 2 >= object[0] + 2:
+                        if self.my_long_snake.head_coord[1] - 2 >= object[1] - 2 and self.my_long_snake.head_coord[1] + 2 >= object[1] + 2: 
+                            print(f"Zarejestrowano zderzenie z {i} elementem")
+                            self.kill_yourself()
+                    i += 1
 
                         
 
     def kill_yourself(self):
         self.button.msg = "TRY AGAIN"
-        self.points.points = 0
-        
         self.game_active = False
     
     def update_screen(self):

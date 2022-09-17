@@ -26,11 +26,6 @@ class MySnake(MyLittleSnake):
         self.screen = snake_game.screen
         self.snake_game = snake_game
 
-        self.set_deafult()
-
-        
-        
-    def set_deafult(self):
         self.x = self.settings.screen_size_width //2
         self.y = self.settings.screen_size_height //2
 
@@ -49,6 +44,7 @@ class MySnake(MyLittleSnake):
         self.moving_down = False
         self.apple = False
     
+        
 
     def update(self):
         """Poruszanie się węża, jego rozrost"""
@@ -66,7 +62,8 @@ class MySnake(MyLittleSnake):
         self.my_long_snake.insert(0, self.my_little_snake)
 
         if self.apple == True:
-            pass
+            print(len(self.coords), self.head_coord)
+            print(self.coords)
         else:
             del self.my_long_snake[-1]
             if self.coords: del self.coords[-1]
