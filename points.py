@@ -49,29 +49,23 @@ class Points():
     def prep_score(self):
         """Przekształcenie punktacji na wygenerowany obraz"""
 
-        if self.print_score:
-            self.score_image = self.font.render(f"YOUR SCORE: {str(self.points)}", True, self.text_color, self.settings.bg_color)
-            self.high_score_image = self.font.render(f"HIGH SCORE: {str(self.high_score)}", True, self.text_color, self.settings.bg_color)
+        self.score_image = self.font.render(f"YOUR SCORE: {str(self.points)}", True, self.text_color, self.settings.bg_color)
+        self.high_score_image = self.font.render(f"HIGH SCORE: {str(self.high_score)}", True, self.text_color, self.settings.bg_color)
 
-            # wyświetlanie punktacji w lewym górnym rogu ekranu
-            self.score_rect = self.score_image.get_rect()
-            self.score_rect.left = self.screen_rect.left + 10
-            self.score_rect.top = 10
+        # wyświetlanie punktacji w lewym górnym rogu ekranu
+        self.score_rect = self.score_image.get_rect()
+        self.score_rect.left = self.screen_rect.left + 10
+        self.score_rect.top = 10
 
-            # wyświetlanie najlepszego wyniku w prawym górnym rogu
-            self.high_score_rect = self.high_score_image.get_rect()
-            self.high_score_rect.right = self.screen_rect.right - 10
-            self.high_score_rect.top = 10
+        # wyświetlanie najlepszego wyniku w prawym górnym rogu
+        self.high_score_rect = self.high_score_image.get_rect()
+        self.high_score_rect.right = self.screen_rect.right - 10
+        self.high_score_rect.top = 10
 
-        else: # wyświetlenie game over w górnym środku ekranu
-            self.score_image = self.font.render("GAME OVER", True, self.text_color, self.settings.bg_color)
-            self.score_rect = self.score_image.get_rect()
-            self.score_rect.centerx = self.screen_rect.centerx
-            self.score_rect.top = 10
 
 
     def show_score(self):
         self.draw_line()
         self.prep_score()
         self.screen.blit(self.score_image, self.score_rect)
-        if self.print_score: self.screen.blit(self.high_score_image, self.high_score_rect)
+        self.screen.blit(self.high_score_image, self.high_score_rect)
