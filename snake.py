@@ -1,4 +1,5 @@
 import sys
+from time import sleep
 import pygame
 
 from settings import Settings
@@ -24,7 +25,9 @@ class Snake():
 
         self.points = Points(self)
 
-        self.button = StartMenu(self)
+        self.button_easy = StartMenu(self, "EASY", 0)
+        self.button_medium = StartMenu(self, "MEDIUM", 1)
+        self.button_hard = StartMenu(self, "HARD", 2)
 
     def run_game(self):
         """rozpoczęcie pętli głównej gry"""
@@ -35,6 +38,7 @@ class Snake():
                 self.my_long_snake.update()         
                 self.collisions()
                 self.is_dead()
+                
                 
             self.update_screen()
 
@@ -75,39 +79,48 @@ class Snake():
                     self.my_long_snake.moving_down = True
                 elif event.key == pygame.K_q: sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                self.check_play_button(pygame.mouse.get_pos())
+                self.check_play_buttons(pygame.mouse.get_pos())
 
-    def check_play_button(self, mouse_pos):
-        if self.button.rect.collidepoint(mouse_pos) and not self.game_active:
-            self.game_active = True
-            self.settings.set_deafult()
-            self.my_long_snake = MySnake(self)
-            self.points = Points(self)
-            self.button = StartMenu(self)
-            
+
+
+    def check_play_buttons(self, mouse_pos):
+        """Sprawdza czy guzik został kliknięty"""
+        if self.button_easy.rect.collidepoint(mouse_pos) and not self.game_active: self.settings.game_mode, self.settings.choosen = "easy", True
+        elif self.button_medium.rect.collidepoint(mouse_pos) and not self.game_active: self.settings.game_mode, self.settings.choosen = "medium", True
+        elif self.button_hard.rect.collidepoint(mouse_pos) and not self.game_active: self.settings.game_mode, self.settings.choosen = "hard", True
+        
+        self.game_active, self.settings.choosen = True, False
+        self.settings.set_deafult()
+        self.my_long_snake = MySnake(self)
+        self.points = Points(self)
         
 
     def is_dead(self):
         """sprawdzanie czy wąż powinien być martwy, tzn czy nie wiechał w ścianę"""
         if self.game_active:
-            if self.my_long_snake.x <= 8 or self.my_long_snake.x >= self.settings.screen_size_width - 8: self.kill_yourself("Ściana")
-            elif self.my_long_snake.y <= self.settings.line_y + 8 or self.my_long_snake.y >= self.settings.screen_size_height - 6: self.kill_yourself("Ściana")
-            elif self.my_long_snake.head_coord in self.my_long_snake.coords[1:]: self.kill_yourself("Wąż")
+            if self.my_long_snake.x <= 0 or self.my_long_snake.x >= self.settings.screen_size_width: self.kill_yourself()
+            elif self.my_long_snake.y <= self.settings.line_y or self.my_long_snake.y >= self.settings.screen_size_height- 8: self.kill_yourself()
+            elif self.my_long_snake.head_coord in self.my_long_snake.coords[1:]: self.kill_yourself()
 
                         
 
-    def kill_yourself(self, how="Ściana"):
-        self.button.msg = "TRY AGAIN"
-        print(f"Wąż został zabity przez: {how}")
+    def kill_yourself(self,):
+        """Procedura uśmiercania węża"""
         self.my_long_snake.moving_down, self.my_long_snake.moving_up, self.my_long_snake.moving_left, self.my_long_snake.moving_right = False, False, False, False
+        sleep(1)
         self.game_active = False
+        self.points.update_scoretable()
     
+
     def update_screen(self):
         """uaktualnianie obrazów na ekranie i przejście do nowego ekranu"""
         self.screen.fill(self.settings.bg_color)
         self.apple.blitme()
-        if not self.game_active: self.button.draw_button()
-        self.points.show_score()
+        if not self.game_active:
+            self.button_easy.draw_button()
+            self.button_medium.draw_button()
+            self.button_hard.draw_button()
+        else: self.points.show_score()
         self.my_long_snake.blitme()
 
         pygame.display.flip() # wyświetlenie ostatnio zmodyfikowanego ekranu

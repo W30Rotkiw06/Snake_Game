@@ -73,7 +73,7 @@ class MySnake(MyLittleSnake):
         
 
         self.apple = False
-        time.sleep(0.1)   
+        time.sleep(self.settings.snake_speed)   
 
     def blitme(self):
         if self.game.game_active == True:

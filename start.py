@@ -2,23 +2,30 @@ import pygame.font
 import pygame
 class StartMenu():
     
-    def __init__(self, game):
+    def __init__(self, game, msg, x):
         """Inicjalizacja przycisku i menu początkowego"""
         self.screen = game.screen
         self.game = game
         self.screen_rect = self.screen.get_rect()
+        self.x = x
 
-        self.msg = "START"
+        self.msg = msg
 
         # właściwości przycisku
-        self.width, self.height = 200, 50
+        self.width, self.height = 100, 25
         self.button_color = (0, 255, 0)
         self.text_color = (250, 250, 250)
-        self.font = pygame.font.SysFont(None, 48)
+        self.font = pygame.font.SysFont(None, 24)
 
-        # utworzenie prostokątnego przycisku na środku ekranu
+        # utworzenie prostokątnego przycisku w wyznaczonym miejscu
+
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.center = self.screen_rect.center
+        
+        if self.x == 0:
+            self.rect.x -= 120
+        elif self.x == 2:
+            self.rect.x += 120
 
 
     def prep_msg(self, msg):
