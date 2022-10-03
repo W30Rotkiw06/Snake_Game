@@ -1,5 +1,6 @@
 from __future__ import barry_as_FLUFL
 import json
+import os
 import pygame
 import pygame.font
 
@@ -11,6 +12,7 @@ class Points():
     def __init__(self, game):
         """Inicjalizacja i wczytanie aktualnego rekordu"""
         self.settings = game.settings
+        self.game = game
         self.apple = game.apple
         self.screen = game.screen
         self.print_score = True
@@ -25,7 +27,7 @@ class Points():
         self.text_color = (0, 0, 0)
         self.font = pygame.font.SysFont(None, 42)
 
-        self.player = "PL3"
+
         
 
         # wczytywanie tabeli wyników z plkiku do zmiennej, ewentualne utworzenie zmiennej
@@ -44,12 +46,14 @@ class Points():
 
 
         # Sprawdzanie czy zawodnik znajduje się już w tabeli
-        self.player.upper()
+        self.game.player.upper()
         for item in self.scores:
-            if self.player == item[1]: 
+            if self.game.player.title() == item[1].title(): 
                 self.new_player = False
                 break
-
+        if self.new_player: 
+            self.scores.append((self.points, self.game.player))
+            self.new_player = False
 
         
 
@@ -62,7 +66,7 @@ class Points():
         self.points += 1
         self.is_new_high_score()
 
-        self.update_scoretable()
+       
 
 
     def draw_line(self):
@@ -96,38 +100,54 @@ class Points():
         """Uaktualnia tabelkę z wynikami"""
 
         # Dopisanie wyniku gracza do tabelki
-        if self.scores == [] or self.new_player:
-                self.scores.append((self.points, self.player))
+        if self.points == 0: pass
+        elif self.scores == []:
+                self.scores.append((self.points, self.game.player))
                 self.new_player = False
         else:
             i = 0
 
             for item in self.scores:
-                if item[1] == self.player and item[0] < self.points:
+                if item[1] == self.game.player and item[0] < self.points:
                     del self.scores[i]
                     if i == 0:  
-                        self.scores.insert(0, (self.points, self.player))
+                        self.scores.insert(0, (self.points, self.game.player))
                         break
                     elif item[0] < self.points:
                         for j in range(len(self.scores)):
-                            if self.points < self.scores[-j][0]:
-                                self.scores.append((self.points, self.player))
+                            if self.points < self.scores[-1][0]:
+                                self.scores.append((self.points, self.game.player))
                                 break
                             elif self.points >= self.scores[j][0]:
-                                self.scores.insert(j, (self.points, self.player))
+                                self.scores.insert(j, (self.points, self.game.player)) # usunąłem j-1, jak nie będzie działać to wiesz czemu :-)
                                 break
                         break
                 i += 1
 
 
         # wyświetlanie tabelki
+        os.system('cls')
         pos = 1
-        print(self.scores)
         print("NR.\tPLAYER    \tSCORE")
         for score in self.scores: 
-            print(f"{pos}\t{score[1]}\t{score[0]}") # score[1] to nazwa gracza, score[0] to wynik
+            print(f"{pos}\t{score[1]}\t\t{score[0]}") # score[1] to nazwa gracza, score[0] to wynik
             pos += 1
 
         
         with open(self.filename, "w") as f:
                 json.dump(self.scores, f)
+
+    def show_table(self):
+        """pos = 1
+        try:
+            self.score_table_image = self.font.render(f"{pos}\t{self.scores[0][1]}\t\t{self.scores[0][0]}", True, (0, 0, 0), self.settings.bg_color)
+
+            self.score_table_rect = self.score_image.get_rect()
+            self.score_rect.centerx = self.screen_rect.centerx
+            self.score_rect.centery = self.game.settings.button_x - (20 * pos)
+            self.screen.blit(self.score_table_image, self.score_table_rect)
+        except: pass
+    
+"""     
+        pass
+

@@ -6,7 +6,7 @@ from settings import Settings
 from my_long_snake import MySnake
 from apple import Apple
 from points import Points
-from start import StartMenu
+from button import Button
 
 class Snake():
     """Ogólna klasa przeznaczona do zarządzania elementami gry"""
@@ -14,6 +14,8 @@ class Snake():
     def __init__(self):
         """Inicjalizaja gry i utworzenie jej zasobów"""
         pygame.init()
+        
+        self.player = ""
         self.settings = Settings(self)
 
         pygame.display.set_caption(self.settings.caption)
@@ -25,9 +27,9 @@ class Snake():
 
         self.points = Points(self)
 
-        self.button_easy = StartMenu(self, "EASY", 0)
-        self.button_medium = StartMenu(self, "MEDIUM", 1)
-        self.button_hard = StartMenu(self, "HARD", 2)
+        self.button_easy = Button(self, "EASY", -120, self.settings.line_y, self.settings.button_size, self.settings.button_color)
+        self.button_medium = Button(self, "MEDIUM", 0, self.settings.line_y, self.settings.button_size, self.settings.button_color)
+        self.button_hard = Button(self, "HARD", 120, self.settings.line_y, self.settings.button_size, self.settings.button_color)
 
     def run_game(self):
         """rozpoczęcie pętli głównej gry"""
@@ -85,15 +87,23 @@ class Snake():
 
     def check_play_buttons(self, mouse_pos):
         """Sprawdza czy guzik został kliknięty"""
-        if self.button_easy.rect.collidepoint(mouse_pos) and not self.game_active: self.settings.game_mode, self.settings.choosen = "easy", True
-        elif self.button_medium.rect.collidepoint(mouse_pos) and not self.game_active: self.settings.game_mode, self.settings.choosen = "medium", True
-        elif self.button_hard.rect.collidepoint(mouse_pos) and not self.game_active: self.settings.game_mode, self.settings.choosen = "hard", True
+        if self.button_easy.rect.collidepoint(mouse_pos) and not self.game_active:
+            self.settings.game_mode, self.settings.choosen = "easy", True
+            self.lets_start()
+        elif self.button_medium.rect.collidepoint(mouse_pos) and not self.game_active:
+            self.settings.game_mode, self.settings.choosen = "medium", True
+            self.lets_start()
+        elif self.button_hard.rect.collidepoint(mouse_pos) and not self.game_active:
+            self.settings.game_mode, self.settings.choosen = "hard", True
+            self.lets_start()
         
+        
+
+    def lets_start(self):
         self.game_active, self.settings.choosen = True, False
         self.settings.set_deafult()
         self.my_long_snake = MySnake(self)
         self.points = Points(self)
-        
 
     def is_dead(self):
         """sprawdzanie czy wąż powinien być martwy, tzn czy nie wiechał w ścianę"""
@@ -120,7 +130,9 @@ class Snake():
             self.button_easy.draw_button()
             self.button_medium.draw_button()
             self.button_hard.draw_button()
-        else: self.points.show_score()
+            self.points.show_table()
+        else: 
+            self.points.show_score()
         self.my_long_snake.blitme()
 
         pygame.display.flip() # wyświetlenie ostatnio zmodyfikowanego ekranu
