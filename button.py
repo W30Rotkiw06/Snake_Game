@@ -8,9 +8,12 @@ class Button():
         self.game = game
         self.screen_rect = self.screen.get_rect()
         self.msg = msg
+        self.settings = self.game.settings
+        self.button_clicked = False
 
         # właściwości przycisku
         self.width, self.height = size[0], size[1]
+        self.deafult_color = color
         self.button_color = color
         self.text_color = self.game.settings.text_color
         self.font = pygame.font.SysFont(None, 24)
@@ -33,6 +36,9 @@ class Button():
     
 
     def draw_button(self):
+        if self.button_clicked: self.button_color = self.settings.button_color_clicked
+        else: self.button_color = self.deafult_color
         self.prep_msg(self.msg)
+        self.screen.fill(self.settings.button_color_clicked, self.rect)
         self.screen.fill(self.button_color, self.rect)
         self.screen.blit(self.msg_image, self.msg_image_rect)

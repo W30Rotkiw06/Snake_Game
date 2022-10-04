@@ -1,4 +1,3 @@
-from __future__ import barry_as_FLUFL
 import json
 import os
 import pygame
@@ -45,16 +44,6 @@ class Points():
         else: self.high_score = 0
 
 
-        # Sprawdzanie czy zawodnik znajduje się już w tabeli
-        self.game.player.upper()
-        for item in self.scores:
-            if self.game.player.title() == item[1].title(): 
-                self.new_player = False
-                break
-        if self.new_player: 
-            self.scores.append((self.points, self.game.player))
-            self.new_player = False
-
         
 
     def is_new_high_score(self):
@@ -99,6 +88,17 @@ class Points():
     def update_scoretable(self):
         """Uaktualnia tabelkę z wynikami"""
 
+        # Sprawdzanie czy zawodnik znajduje się już w tabeli
+        self.game.player.upper()
+        for item in self.scores:
+            if self.game.player.title() == item[1].title(): 
+                self.new_player = False
+                break
+        if self.new_player and self.points >= 1: 
+            self.scores.append((self.points, self.game.player))
+            self.new_player = False
+
+
         # Dopisanie wyniku gracza do tabelki
         if self.points == 0: pass
         elif self.scores == []:
@@ -108,18 +108,18 @@ class Points():
             i = 0
 
             for item in self.scores:
-                if item[1] == self.game.player and item[0] < self.points:
+                if item[1] == self.game.player and item[0] <= self.points:
                     del self.scores[i]
                     if i == 0:  
                         self.scores.insert(0, (self.points, self.game.player))
                         break
-                    elif item[0] < self.points:
+                    elif item[0] <= self.points:
                         for j in range(len(self.scores)):
                             if self.points < self.scores[-1][0]:
                                 self.scores.append((self.points, self.game.player))
                                 break
                             elif self.points >= self.scores[j][0]:
-                                self.scores.insert(j, (self.points, self.game.player)) # usunąłem j-1, jak nie będzie działać to wiesz czemu :-)
+                                self.scores.insert(j, (self.points, self.game.player))
                                 break
                         break
                 i += 1
