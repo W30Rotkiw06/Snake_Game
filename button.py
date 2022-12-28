@@ -39,6 +39,5 @@ class Button():
         if self.button_clicked: self.button_color = self.settings.button_color_clicked
         else: self.button_color = self.deafult_color
         self.prep_msg(self.msg)
-        self.screen.fill(self.settings.button_color_clicked, self.rect)
         self.screen.fill(self.button_color, self.rect)
         self.screen.blit(self.msg_image, self.msg_image_rect)

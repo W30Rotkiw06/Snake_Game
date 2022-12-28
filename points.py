@@ -94,14 +94,15 @@ class Points():
             if self.game.player.title() == item[1].title(): 
                 self.new_player = False
                 break
-        if self.new_player and self.points >= 1: 
-            self.scores.append((self.points, self.game.player))
-            self.new_player = False
+       
 
 
         # Dopisanie wyniku gracza do tabelki
-        if self.points == 0: pass
-        elif self.scores == []:
+        if self.new_player and self.points >= 1: 
+            self.scores.append((self.points, self.game.player))
+            self.new_player = False
+            
+        if self.scores == []:
                 self.scores.append((self.points, self.game.player))
                 self.new_player = False
         else:
@@ -138,16 +139,22 @@ class Points():
                 json.dump(self.scores, f)
 
     def show_table(self):
-        """pos = 1
-        try:
-            self.score_table_image = self.font.render(f"{pos}\t{self.scores[0][1]}\t\t{self.scores[0][0]}", True, (0, 0, 0), self.settings.bg_color)
-
-            self.score_table_rect = self.score_image.get_rect()
-            self.score_rect.centerx = self.screen_rect.centerx
-            self.score_rect.centery = self.game.settings.button_x - (20 * pos)
-            self.screen.blit(self.score_table_image, self.score_table_rect)
-        except: pass
-    
-"""     
         pass
+        
+        """pos = 0
+        try:
+            while pos <= len(self.scores):
+                
 
+            
+                if pos == 0:
+                    self.score_table_image = self.font.render(f"Nr.\tPlayer\tScore\t{self.scores[0][0]}", True, (0, 0, 0), self.settings.bg_color)
+                else:
+                    self.score_table_image = self.font.render(f"{pos}\t{self.scores[0][1]}\t\t{self.scores[0][0]}", True, (0, 0, 0), self.settings.bg_color)
+                self.score_table_rect = self.score_image.get_rect()
+                self.score_rect.centerx = self.screen_rect.centerx
+                self.score_rect.centery = self.game.settings.button_x - (20 * pos)
+                self.screen.blit(self.score_table_image, self.score_table_rect)
+
+        except: pass
+        else: pass"""
