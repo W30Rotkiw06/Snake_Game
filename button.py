@@ -19,7 +19,6 @@ class Button():
         self.font = pygame.font.SysFont(None, 24)
 
         # utworzenie prostokątnego przycisku w wyznaczonym miejscu
-
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.center = self.screen_rect.center
 
@@ -34,6 +33,7 @@ class Button():
         self.msg_image_rect = self.msg_image.get_rect()
         self.msg_image_rect.center = self.rect.center
     
+
 
     def draw_button(self):
         if self.button_clicked: self.button_color = self.settings.button_color_clicked

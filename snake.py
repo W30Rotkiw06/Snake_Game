@@ -37,6 +37,7 @@ class Snake():
         self.button_easy.button_clicked, self.button_medium.button_clicked, self.button_hard.button_clicked, = False, True, False
 
 
+
     def run_game(self):
         """rozpoczęcie pętli głównej gry"""
         while True:
@@ -50,6 +51,8 @@ class Snake():
                 
             self.update_screen()
 
+
+
     def collisions(self):
         """Sprawdza, czy wąż 'zjadł' jabłko """
         collision = False
@@ -60,8 +63,8 @@ class Snake():
             self.settings.snake_color = self.settings.apple_color
             self.apple.new_apple()
             self.points.new_point()
+ 
 
-        
     
     def check_events(self):
         """reakcja na zdarzenie generowane przez myszkę lub klawiaturę"""

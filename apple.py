@@ -10,10 +10,6 @@ class Apple():
         self.settings = game.settings
         self.screen = game.screen
         self.game = game
-
-        
-       
-       
         self.rect = pygame.Rect(0, 0, 8, 8)
 
         self.new_apple()
