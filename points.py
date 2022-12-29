@@ -26,6 +26,8 @@ class Points():
         self.text_color = (0, 0, 0)
         self.font = pygame.font.SysFont(None, 42)
 
+        self.i = 0 # odświeżanie tabelki
+
 
         
 
@@ -126,35 +128,23 @@ class Points():
                 i += 1
 
 
-        # wyświetlanie tabelki
-        os.system('cls')
-        pos = 1
-        print("NR.\tPLAYER    \tSCORE")
-        for score in self.scores: 
-            print(f"{pos}\t{score[1]}\t\t{score[0]}") # score[1] to nazwa gracza, score[0] to wynik
-            pos += 1
+        
 
         
         with open(self.filename, "w") as f:
                 json.dump(self.scores, f)
 
     def show_table(self):
-        pass
         
-        """pos = 0
-        try:
-            while pos <= len(self.scores):
-                
-
-            
-                if pos == 0:
-                    self.score_table_image = self.font.render(f"Nr.\tPlayer\tScore\t{self.scores[0][0]}", True, (0, 0, 0), self.settings.bg_color)
-                else:
-                    self.score_table_image = self.font.render(f"{pos}\t{self.scores[0][1]}\t\t{self.scores[0][0]}", True, (0, 0, 0), self.settings.bg_color)
-                self.score_table_rect = self.score_image.get_rect()
-                self.score_rect.centerx = self.screen_rect.centerx
-                self.score_rect.centery = self.game.settings.button_x - (20 * pos)
-                self.screen.blit(self.score_table_image, self.score_table_rect)
-
-        except: pass
-        else: pass"""
+        
+        if self.i == 30: self.i = 0
+        if self.i == 1:
+            # wyświetlanie tabelki
+            os.system('cls')
+            pos = 1
+            print(self.settings.game_mode.upper())
+            print("\nNO.\tPLAYER\t\t\tSCORE")
+            for score in self.scores: 
+                print(f"{pos}\t{score[1]}\t\t\t{score[0]}") # score[1] to nazwa gracza, score[0] to wynik
+                pos += 1
+        self.i += 1
