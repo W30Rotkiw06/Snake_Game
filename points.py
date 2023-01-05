@@ -29,8 +29,6 @@ class Points():
         self.i = 0 # odświeżanie tabelki
 
 
-        
-
         # wczytywanie tabeli wyników z plkiku do zmiennej, ewentualne utworzenie zmiennej
         self.filename = f"points_{self.settings.game_mode}.json"
         try:
@@ -39,6 +37,7 @@ class Points():
         except:
             self.scores = []
         
+
         # Ustalanie wartości rekordu
         if self.scores:
             for score in self.scores:
@@ -46,7 +45,6 @@ class Points():
         else: self.high_score = 0
 
 
-        
 
     def is_new_high_score(self):
         """Sprawdza, czy aktualny wynik jest większy niż rekord"""
@@ -127,16 +125,15 @@ class Points():
                         break
                 i += 1
 
-
-        
-
-        
+        # zapisanie tabeli do pliku .json        
         with open(self.filename, "w") as f:
                 json.dump(self.scores, f)
 
+
+
     def show_table(self):
-        
-        
+        """Wyświetlanie w konsoli tabeli z wynikami"""        
+
         if self.i == 30: self.i = 0
         if self.i == 1:
             # wyświetlanie tabelki

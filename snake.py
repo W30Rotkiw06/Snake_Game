@@ -21,6 +21,7 @@ class Snake():
 
         pygame.display.set_caption(self.settings.caption)
         self.screen = pygame.display.set_mode(self.settings.screen_size)
+        pygame.display.set_icon(pygame.image.load("icon.ico"))
 
         self.my_long_snake = MySnake(self)
         self.apple = Apple(self)
